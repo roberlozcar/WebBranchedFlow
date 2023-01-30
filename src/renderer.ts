@@ -1,5 +1,5 @@
 import { vssource, fssource} from "./shadersources";
-import { parameter } from "./types";
+import { parameter,vec2 } from "./types";
 
 export class renderer{
 
@@ -9,6 +9,10 @@ export class renderer{
   
     private gl:WebGL2RenderingContext;
     private program:WebGLProgram; 
+    private upos:number;
+    private utrans:WebGLUniformLocation;
+    private ualpha:WebGLUniformLocation;
+    private bufferpos:WebGLBuffer;
   
     private setupwebgl():void{
       const canvas=<HTMLCanvasElement>document.getElementById("gl");
@@ -48,32 +52,26 @@ export class renderer{
       this.gl.disable(this.gl.DEPTH_TEST);
 
       this.gl.useProgram(this.program);
+      this.utrans=this.gl.getUniformLocation(this.program,'trans');
+      this.upos=this.gl.getAttribLocation(this.program,'pos');
+      this.ualpha=this.gl.getUniformLocation(this.program,'alpha');
+      this.bufferpos=this.gl.createBuffer();
+      this.gl.bindBuffer(this.gl.ARRAY_BUFFER,this.bufferpos);
     }
   
     public draw(position:number[][],par:parameter):void{
 
       this.gl.clearColor(1.,0.,0.,1.);
 
-      let utrans=this.gl.getUniformLocation(this.program,'trans');
       const trans=par.getmatrix();
-      
-      this.gl.uniformMatrix4fv(utrans,true,trans);
+      this.gl.uniformMatrix4fv(this.utrans,true,trans);
+      this.gl.uniform1f(this.ualpha,par.alpha);
 
-      let upos=this.gl.getAttribLocation(this.program,'pos');
-      let ualpha=this.gl.getUniformLocation(this.program,'alpha');
-
-      this.gl.uniform1f(ualpha,par.alpha);
-      
-      let bufferpos=this.gl.createBuffer();
-      
-      this.gl.bindBuffer(this.gl.ARRAY_BUFFER,bufferpos);
-        this.gl.bufferData(this.gl.ARRAY_BUFFER,new Float32Array(position[0]),this.gl.STATIC_DRAW);
-        this.gl.vertexAttribPointer(upos, 2, this.gl.FLOAT, false, 0, 0);
-        this.gl.enableVertexAttribArray(upos);
-
-      for(let i=1;i<position.length;++i){
-        this.gl.bufferData(this.gl.ARRAY_BUFFER,new Float32Array(position[i]),this.gl.STATIC_DRAW);
-        this.gl.drawArrays(this.gl.LINE_STRIP,0,position[1].length*.5);
+      for(let i=0;i<position.length;++i){
+        this.gl.bufferData(this.gl.ARRAY_BUFFER,new Float32Array(position[i]),this.gl.DYNAMIC_DRAW);
+        this.gl.vertexAttribPointer(this.upos, 2, this.gl.FLOAT, false, 0, 0);
+        this.gl.enableVertexAttribArray(this.upos);
+        this.gl.drawArrays(this.gl.LINE_STRIP,0,position[i].length*.5);
       }
-  }
+    }      
 }
