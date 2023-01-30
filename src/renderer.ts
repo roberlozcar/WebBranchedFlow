@@ -1,4 +1,5 @@
 import { vssource, fssource} from "./shadersources";
+import { parameter } from "./types";
 
 export class renderer{
 
@@ -45,27 +46,23 @@ export class renderer{
       this.gl.enable(this.gl.BLEND);
       this.gl.blendFunc(this.gl.SRC_ALPHA,this.gl.DST_ALPHA);
       this.gl.disable(this.gl.DEPTH_TEST);
-    }
-  
-    public draw(position:number[][],alpha:number):void{
-
-      this.gl.clearColor(1.,0.,0.,1.);
-      this.gl.enable(this.gl.BLEND);
-      this.gl.blendFunc(this.gl.SRC_ALPHA,this.gl.DST_ALPHA);
 
       this.gl.useProgram(this.program);
+    }
+  
+    public draw(position:number[][],par:parameter):void{
+
+      this.gl.clearColor(1.,0.,0.,1.);
 
       let utrans=this.gl.getUniformLocation(this.program,'trans');
-      let trans=[.02, 0., 0., -1., 
-        0., 0.02, 0., 0., 
-        0., 0., 1., 0., 
-        0., 0., 0., 1.];
+      const trans=par.getmatrix();
+      
       this.gl.uniformMatrix4fv(utrans,true,trans);
 
       let upos=this.gl.getAttribLocation(this.program,'pos');
       let ualpha=this.gl.getUniformLocation(this.program,'alpha');
 
-      this.gl.uniform1f(ualpha,alpha);
+      this.gl.uniform1f(ualpha,par.alpha);
       
       let bufferpos=this.gl.createBuffer();
       
