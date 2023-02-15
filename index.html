@@ -3,6 +3,7 @@
     <title>Prueba</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div style="text-align: center; width: 90%; height: 1024px;">
@@ -11,16 +12,36 @@
         
     </div>
     <div style="text-align: center; width: 90%;  height: 90%;">
-        <label for="particles">Number of Particles: </label>
-        <input type="number" name="particles" id="input1" style="width: 50px;"/>
+        <div><button id="buttonfocal">Focal</button>
+            <button id="buttondisk">Disk</button>
+            <button id="buttondirectional">Directional</button>
+        </div>
+        <div><label for="particles" >Number of Particles: </label>
+            <input type="number" name="particles" id="input1" class="in"/>
+    
+            <label for="steps">Number of Step: </label>
+            <input type="number" name="steps" id="input2" class="in"/>
+    
+            <label for="alpha">Alpha: </label>
+            <input type="number" name="alpha" id="input3" class="in"/>
 
-        <label for="steps">Number of Step: </label>
-        <input type="number" name="steps" id="input2" style="width: 50px;"/>
+            <label for="energy">Energy: </label>
+            <input type="number" name="energy" id="inputenergy" class="in"/>
 
-        <label for="alpha">Alpha: </label>
-        <input type="number" name="alpha" id="input3" style="width: 50px;"/>
-        <button id="buttonnormal">Run Normal</button>
-        <button id="buttondisk">Run Disk</button>
+            <label for="maxangle" class="inoptional">Max Angle: </label>
+            <input type="number" name="maxangle" id="inputangle" class="inoptional"/>
+
+            <label for="initposx" class="inoptional">Posx0: </label>
+            <input type="number" name="initposx" id="initposx" class="inoptional"/>
+
+            <label for="initposy" class="inoptional">Posy0: </label>
+            <input type="number" name="initposy" id="initposy" class="inoptional"/>
+            
+            <button id="runbutton">Run</button>
+
+
+        </div>
+        
     </div>
 
     

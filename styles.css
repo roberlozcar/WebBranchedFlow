@@ -1,0 +1,7 @@
+.in{
+    width: 50px;
+}
+.inoptional{
+    width: 50px;
+    visibility: hidden;
+}

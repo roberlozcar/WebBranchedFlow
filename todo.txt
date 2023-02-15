@@ -1,0 +1,5 @@
+Directional
+Potential in Texture
+Interesting parameter:
+- Initial point.
+- Initial energy.

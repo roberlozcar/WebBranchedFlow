@@ -27,17 +27,21 @@ export type vec3={
     z:number;
 }
   
+export enum MODE{
+    Focal=1,
+    Radial=0,
+    Directional=2,
+};
+
   export class parameter{
   
-    constructor(par?:number,step?:number,angle?:number,zoom?:vec2,trans?:vec2,mod?:boolean,transparency?:number,strength?:number){
+    constructor(par?:number,step?:number,angle?:number,zoom?:vec2,initpos?:vec2,mod?:number,transparency?:number,strength?:number){
         this.particles=par?? 250;
         this.step=step?? 125;
         this.maxangle=angle?? Math.PI/4.;
         this.zoom=zoom?? new vec2(0.02,0.02);
         this.alpha=transparency?? 0.5;
-        this.translation=trans?? new vec2(0.,0.);
-        this.mode=mod?? false;
-        this.strength=strength?? 0.0025;
+        this.mode=mod?? MODE.Focal;
     };
   
     public particles: number=250;
@@ -46,31 +50,43 @@ export type vec3={
     public zoom:vec2=new vec2(0.02,0.02);
     public translation:vec2=new vec2(0.,0.);
     public alpha:number=0.5;
-    public mode:boolean=false;
-    public strength:number=0.0025;
+    public energy:number=1.;
+    public mode:MODE=MODE.Focal;
+    public initpos:vec2=new vec2(0.,0.);
+
+
   
     public getmatrix():number[]{
-        return [this.zoom.x,0.,0.,this.translation.x,
-        0.,this.zoom.y,0.,this.translation.y,
+        return [this.zoom.x,0.,0.,-this.initpos.x*(this.zoom.x-1)+this.translation.x,
+        0.,this.zoom.y,0.,-this.initpos.y*(this.zoom.y-1)+this.translation.y,
         0.,0.,1.,0.,
         0.,0.,0.,1.];
     }
 
-    public randompointandvelocity():vec2[]{
-        let position:vec2;
+    public initrandom():vec2[]{
         let velocity:vec2;
-        if(this.mode){
-            let rand=Math.random()*2.*Math.PI;
-            velocity=new vec2(Math.cos(rand),Math.sin(rand));
-            position=velocity.mul(0.1);
-        }else{
-            let rand=(Math.random()*2-1)*this.maxangle;
-            velocity=new vec2(Math.cos(rand),Math.sin(rand));
-            rand=(Math.random()*2-1)*this.maxangle;
-            position=new vec2(0.,(Math.random()-1)*.5);
+        let position:vec2;
+        let angle:number;
+        switch(this.mode){
+            case MODE.Focal:
+                angle=(2.*Math.random()-1)*this.maxangle;
+                velocity=new vec2(Math.cos(angle),Math.sin(angle)).mul(this.energy);
+                position=this.initpos;
+                break;
+            case MODE.Radial:
+                angle=Math.random()*2*Math.PI;
+                velocity=new vec2(Math.cos(angle),Math.sin(angle)).mul(this.energy);
+                position=this.initpos;
+                break;
+            default:
+                velocity=new vec2(this.energy,0);
+                let y=(2*Math.random()-1)/this.zoom.y;
+                position=new vec2(this.initpos.x,y);
+                break;
         }
 
         return [position,velocity];
+
     }
 
   }
