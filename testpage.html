@@ -211,20 +211,38 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 </div>
 
 <div class="j-module n j-header "><h3 class="" id="cc-m-header-13255293131">Blanched Flow Test</h3></div>
-    <div  class="j-module n j-hr "><hr/>
-        <canvas style="width: 100%; aspect-ratio: 1; background-color: black;" id="gl"></canvas>
-        <div style="text-align: center; width: 90%;  height: 90%;">
-            <label for="particles">Number of Particles: </label>
-            <input type="number" name="particles" id="input1" style="width: 50px;"/>
+<div style="text-align: center; width: 90%;  height: 90%;">
+    <div><button id="buttonfocal">Focal</button>
+        <button id="buttondisk">Disk</button>
+        <button id="buttondirectional">Directional</button>
+    </div>
+    <div><label for="particles" >Number of Particles: </label>
+        <input type="number" name="particles" id="input1" class="in"/>
 
-            <label for="steps">Number of Step: </label>
-            <input type="number" name="steps" id="input2" style="width: 50px;"/>
+        <label for="steps">Number of Step: </label>
+        <input type="number" name="steps" id="input2" class="in"/>
 
-            <label for="alpha">Alpha: </label>
-            <input type="number" name="alpha" id="input3" style="width: 50px;"/>
-            <button id="buttonnormal">Run Normal</button>
-            <button id="buttondisk">Run Disk</button>
-        </div>
+        <label for="alpha">Alpha: </label>
+        <input type="number" name="alpha" id="input3" class="in"/>
+
+        <label for="energy">Energy: </label>
+        <input type="number" name="energy" id="inputenergy" class="in"/>
+
+        <label for="maxangle" class="inoptional">Max Angle: </label>
+        <input type="number" name="maxangle" id="inputangle" class="inoptional"/>
+
+        <label for="initposx" class="inoptional">Posx0: </label>
+        <input type="number" name="initposx" id="initposx" class="inoptional"/>
+
+        <label for="initposy" class="inoptional">Posy0: </label>
+        <input type="number" name="initposy" id="initposy" class="inoptional"/>
+        
+        <button id="runbutton">Run</button>
+
+
+    </div>
+    
+</div>
 </div>
 
 </div><div id="cc-m-13255293131" class="j-module n j-header "><h3 class="" id="cc-m-header-13255293131">Navigating the website</h3></div><div id="cc-m-13253901631" class="j-module n j-hr ">    <hr/>
